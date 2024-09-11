@@ -1,0 +1,49 @@
+/* components/Switch.module.css */
+.switch {
+  display: inline-block;
+  width: 25px;
+  height: 16px;
+  position: relative;
+  cursor: pointer;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  align-self: center;
+  border-radius: 50%;
+  background: white;
+  transition: 0.4s;
+  left: 2px;
+  top: 2px;
+}
+
+.sliderOn {
+  background-color: #2196f3;
+}
+
+.sliderOn:before {
+  transform: translateX(10px);
+}
+
+.sliderOff {
+  background-color: #ccc;
+}
+
+.sliderOff:before {
+  transform: translateX(0);
+}
