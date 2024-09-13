@@ -1,13 +1,11 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { CiPlay1, CiPause1 } from "react-icons/ci";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOutlineAddTask } from "react-icons/md";
-import { TfiControlBackward, TfiControlForward } from "react-icons/tfi";
 import { IoIosClose } from "react-icons/io";
 import { HiOutlineForward, HiOutlineBackward } from "react-icons/hi2";
 interface AudioProps {
-  url: string | null;
+  url: string;
   closeAudioPop: () => void;
 }
 const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
@@ -15,6 +13,11 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
+
+  useEffect(() => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+  }, [url]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -110,12 +113,12 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
       <div className="px-[16px] mt-[10px]">
         <input
           type="range"
-          className="flex w-[98%]"
+          className="flex w-[98%] "
           min={0}
-          max={2 * duration}
+          max={duration}
           value={currentTime}
           onChange={handleSeekChange}
-          step="0.01"
+          step="0.1"
         />
         <div className="flex justify-between mt-[5px]">
           <text className="text-black text-[9px] ">
@@ -128,7 +131,10 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
         </div>
       </div>
       <div className="mt-[10px] px-[10px] flex justify-between">
-        <button className="flex items-center  py-[10px] px-[30px] bg-[#FFE9E9] rounded-xl">
+        <button
+          onClick={() => closeAudioPop()}
+          className="flex items-center  py-[10px] px-[30px] bg-[#FFE9E9] rounded-xl"
+        >
           <text className="text-[#FF0707] text-[12px] pr-[6px]">Close</text>
           <IoIosClose color="#FF0707" size={16} />
         </button>
