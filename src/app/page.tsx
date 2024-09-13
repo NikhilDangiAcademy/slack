@@ -140,14 +140,14 @@ export default function Home() {
             className=" mt-[13px] rounded-xl overflow-hidden shadow-custom"
           >
             <div
-              className=" flex items-center mr-[6px] w-[5%] justify-center "
+              className=" flex items-center mr-[10px] w-[7%] justify-center "
               style={backgroundColor(val.category)}
             >
               <text className="text-black text-[9px]   -rotate-90 ">
                 {val.category}
               </text>
             </div>
-            <div className="flex flex-col py-[14px] pr-[14px] w-[95%] ">
+            <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
               <div className="flex  justify-between  ">
                 <text className="text-black text-[15px] font-normal">
                   {val.name}
