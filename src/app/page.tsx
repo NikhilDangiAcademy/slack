@@ -14,7 +14,11 @@ interface dataInterface {
 export default function Home() {
   const [expireLeads, setExpireLeads] = useState<boolean>(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isOn, setIsOn] = useState<boolean>(false);
 
+  const handleToggle = () => {
+    setIsOn((prevState) => !prevState);
+  };
   const dataList: dataInterface[] = [
     {
       name: "Ravi Singh",
@@ -45,6 +49,50 @@ export default function Home() {
       sAmount: "Business Income 10L",
       audio:
         "https://onlinetestcase.com/wp-content/uploads/2023/06/1-MB-MP3.mp3",
+    },
+    {
+      name: "Ravi Singh",
+      category: "Gold",
+      amount: "Home Loan: 20L",
+      sAmount: "Salaried Income 12L",
+      audio:
+        "https://onlinetestcase.com/wp-content/uploads/2023/06/1-MB-MP3.mp3",
+    },
+    {
+      name: "Avi Singh",
+      category: "Bronze",
+      amount: "Loan Against Property : 20L",
+      sAmount: "Business Income 10L",
+      audio: "https://jervo.org/zanado/audio/halo.mp3",
+    },
+    {
+      name: "Thakur Singh",
+      category: "Silver",
+      amount: "Loan Against Property : 20L",
+      sAmount: "Business Income 10L",
+      audio: "https://audio.jukehost.co.uk/5G1VuuVpIjRQQV31ejdfmJndF0Bh7AAf",
+    },
+    {
+      name: "Ravi Singh",
+      category: "Gold",
+      amount: "Home Loan: 20L",
+      sAmount: "Salaried Income 12L",
+      audio:
+        "https://onlinetestcase.com/wp-content/uploads/2023/06/1-MB-MP3.mp3",
+    },
+    {
+      name: "Avi Singh",
+      category: "Bronze",
+      amount: "Loan Against Property : 20L",
+      sAmount: "Business Income 10L",
+      audio: "https://jervo.org/zanado/audio/halo.mp3",
+    },
+    {
+      name: "Thakur Singh",
+      category: "Silver",
+      amount: "Loan Against Property : 20L",
+      sAmount: "Business Income 10L",
+      audio: "https://audio.jukehost.co.uk/5G1VuuVpIjRQQV31ejdfmJndF0Bh7AAf",
     },
   ];
 
@@ -92,12 +140,12 @@ export default function Home() {
   };
 
   return (
-    <div className="w-[360px] py-[5px]  bg-white ">
+    <div className="py-[5px]  bg-white ">
       <div className="flex justify-between my-[10px] px-[36px]">
         <div className="flex flex-col ">
           <text className="text-black font-bold">Sonu Singh</text>
-          <text className="text-black text-[8.6px] font-normal flex flex-row">
-            <div className="bg-[#11B7F5] w-[6px] h-[6px] self-center rounded-[6px] mr-[2px]"></div>{" "}
+          <text className="text-black text-[9px] font-normal flex flex-row">
+            <div className="bg-[#11B7F5] w-[6px] h-[6px] self-center rounded-[6px] mr-[2px]"></div>
             Total Leads Quota : 00/02
           </text>
         </div>
@@ -111,74 +159,91 @@ export default function Home() {
             05
             <text className="text-[9px] font-bold text-center">Minutes</text>
           </text>
-          <text className="text-black font-bold">:</text>
-          <text className="text-black font-bold text-[16px] text-center flex flex-col">
-            20 <text className="text-[9px] font-bold">Seconds</text>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <Switch isOn={isOn} handleToggle={handleToggle} />
+          <text className="text-[9px] mt-[2px] text-black">
+            Accepting Leads
           </text>
         </div>
       </div>
-      <div className="flex justify-between py-[10px] bg-[#F4F4F4] mt-[5px] mb-[12px] px-[36px]">
-        <button onClick={() => setExpireLeads(false)}>
-          <text className="text-black text-[14px] font-semibold">
+      <div className="flex justify-between bg-[#F4F4F4] mt-[5px] mb-[12px] px-[36px] ">
+        <button className=" py-[10px]" onClick={() => setExpireLeads(false)}>
+          <text
+            className={` text-[14px] font-semibold ${
+              expireLeads ? "text-[#667085]" : "text-[#00B6FF]"
+            }`}
+          >
             Fresh Leads
           </text>
         </button>
-        <button onClick={() => setExpireLeads(true)}>
-          <text className="text-[#667085] text-[14px] font-semibold">
+        <button className=" py-[10px]" onClick={() => setExpireLeads(true)}>
+          <text
+            className={`text-[#667085] text-[14px] font-semibold ${
+              !expireLeads ? "text-[#667085]" : "text-[#00B6FF]"
+            }`}
+          >
             Expired Leads
           </text>
         </button>
       </div>
-      <div className="px-[36px]  rounded-xl ">
-        {audioUrl && (
-          <AudioPlayer closeAudioPop={closeAudioPop} url={audioUrl} />
-        )}
-        {dataList.map((val) => (
-          <div
-            key={val.sAmount}
-            style={ColorChoice(val.category)}
-            className=" mt-[13px] rounded-xl overflow-hidden shadow-custom"
-          >
+      {!expireLeads && (
+        <div className="px-[16px]  rounded-xl ">
+          {audioUrl && (
+            <AudioPlayer closeAudioPop={closeAudioPop} url={audioUrl} />
+          )}
+          {dataList.map((val) => (
             <div
-              className=" flex items-center mr-[10px] w-[7%] justify-center "
-              style={backgroundColor(val.category)}
+              key={val.sAmount}
+              style={ColorChoice(val.category)}
+              className=" mt-[13px] rounded-xl overflow-hidden shadow-custom"
             >
-              <text className="text-black text-[9px]   -rotate-90 ">
-                {val.category}
-              </text>
-            </div>
-            <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
-              <div className="flex  justify-between  ">
-                <text className="text-black text-[15px] font-normal">
-                  {val.name}
+              <div
+                className=" flex items-center mr-[10px] w-[7%] justify-center "
+                style={backgroundColor(val.category)}
+              >
+                <text className="text-black text-[9px]   -rotate-90 ">
+                  {val.category}
                 </text>
+              </div>
+              <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
+                <div className="flex leading-5 justify-between  ">
+                  <text className="text-black text-[14px] font-semibold">
+                    {val.name}
+                  </text>
 
-                <div className="flex flex-row">
-                  <button
-                    onClick={() => {
-                      setAudio(val?.audio);
-                    }}
-                  >
-                    <TfiHeadphoneAlt color="black" size={20} />
-                  </button>
-                  <button style={{ marginLeft: 10 }}>
-                    <BsThreeDotsVertical color="black" size={20} />
-                  </button>
+                  <div className="flex flex-row">
+                    <button
+                      onClick={() => {
+                        setAudio(val?.audio);
+                      }}
+                    >
+                      <TfiHeadphoneAlt color="black" size={20} />
+                    </button>
+                    <button style={{ marginLeft: 10 }}>
+                      <BsThreeDotsVertical color="black" size={20} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex justify-between mt-[5px]">
+                  <text className="text-[#566573] text-[9.5px] font-normal  ">
+                    {val.amount}
+                  </text>
+                  <text className="text-[#566573] text-[9.5px] font-normal  ">
+                    {val.sAmount}
+                  </text>
                 </div>
               </div>
-
-              <div className="flex justify-between mt-[5px]">
-                <text className="text-[#566573] text-[9.5px] font-normal  ">
-                  {val.amount}
-                </text>
-                <text className="text-[#566573] text-[9.5px] font-normal  ">
-                  {val.sAmount}
-                </text>
-              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+      {expireLeads && (
+        <div>
+          <text className="text-black">Expire List </text>
+        </div>
+      )}
     </div>
   );
 }
