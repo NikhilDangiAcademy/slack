@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import Switch from "./component/Switch";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AudioPlayer from "./component/AudioPlayer";
 import Link from "next/link";
-
+import UserHeaderComp from "./component/UserHeaderComp";
+import RefreshLeadComp from "./component/RefreshLeadComp";
 interface dataInterface {
   name: string;
   category: string;
@@ -144,58 +144,18 @@ export default function Home() {
 
   return (
     <div className="py-[5px]  bg-white ">
-      <div className="flex justify-between my-[10px] px-[36px]">
-        <div className="flex flex-col ">
-          <text className="text-black font-bold">Sonu Singh</text>
-          <text className="text-black text-[9px] font-normal flex flex-row">
-            <div className="bg-[#11B7F5] w-[6px] h-[6px] self-center rounded-[6px] mr-[2px]"></div>
-            Total Leads Quota : 00/02
-          </text>
-        </div>
-
-        {/* <div className="flex ">
-          <text className="text-black font-bold text-[16px] text-center flex flex-col ">
-            01<text className="text-[9px] font-bold text-center">Hours</text>
-          </text>
-          <text className="text-black font-bold">:</text>
-          <text className="text-black font-bold text-[16px]  text-center flex flex-col">
-            05
-            <text className="text-[9px] font-bold text-center">Minutes</text>
-          </text>
-        </div> */}
-        <div className="flex flex-row items-center border-2 p-[2px] rounded-full">
-          <div className="w-[32px] h-[32px] bg-[#0C8B2C] rounded-2xl  flex justify-center ">
-            <div className="w-[21px] h-[21px] bg-white self-center rounded-xl justify-center flex">
-              <text className="text-[9px] flex self-center text-[#0C8B2C] ">
-                ON
-              </text>
-            </div>
-          </div>
-          <text className="text-[10px]  mt-[2px] text-black  self-center ml-[4px] font-bold">
-            Accepting Leads
-          </text>
-        </div>
-      </div>
-      <div className="py-[10px] px-[20px]   bg-[#F8F8F8] ">
-        <div className="flex flex-row justify-between mb-[10px] ">
-          <text className="text-black text-[14px] font-bold">
-            Refreshing Leads In :
-          </text>
-          <div className="bg-black rounded-2xl py-[6px] px-[12px]">
-            <text className="text-white text-[14px] font-bold ">
-              2 : 59 : 59
-            </text>
-          </div>
-        </div>
-        <div className="flex justify-between  ">
+      <UserHeaderComp />
+      <div>
+        <RefreshLeadComp />
+        <div className="flex justify-evenly pb-[5px]  px-[10px]  bg-[#F8F8F8] ">
           <button
-            className={`py-[10px] px-[30px] rounded-2xl ${
+            className={`py-[10px] px-[40px] rounded-2xl border border-[#00B6FF]  ${
               expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
             }`}
             onClick={() => setExpireLeads(false)}
           >
             <text
-              className={` text-[14px] font-semibold ${
+              className={` text-[16px] font-semibold   ${
                 expireLeads ? "text-[#667085]" : "text-[#FFFFFF]"
               }`}
             >
@@ -203,13 +163,13 @@ export default function Home() {
             </text>
           </button>
           <button
-            className={`py-[10px] px-[30px] rounded-2xl ${
+            className={`py-[10px] px-[40px] rounded-2xl border border-[#00B6FF] ${
               !expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
             }`}
             onClick={() => setExpireLeads(true)}
           >
             <text
-              className={`text-[#667085] text-[14px] font-semibold ${
+              className={`text-[#667085] text-[16px] font-semibold ${
                 !expireLeads ? "text-[#667085]" : "text-[#FFFFFF]"
               }`}
             >
@@ -234,7 +194,7 @@ export default function Home() {
                   className=" flex items-center mr-[10px] w-[7%] justify-center "
                   style={backgroundColor(val.category)}
                 >
-                  <text className="text-black text-[9px]   -rotate-90 ">
+                  <text className="text-black font-bold text-[9px]   -rotate-90 ">
                     {val.category}
                   </text>
                 </div>

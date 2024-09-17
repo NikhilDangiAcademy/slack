@@ -120,18 +120,24 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
         >
           <div className="bg-[#DDD] flex  self-center rounded-xl px-[8px] p-[5px]">
             <text className="text-black text-center text-[12px]">
-              {speedTime}x
+              {speedTime} x
             </text>
           </div>
         </button>
         <div className="flex">
           {isPlaying ? (
-            <button onClick={() => stop()}>
-              <CiPause1 color="black" size={20} />
+            <button
+              className="bg-[#00B6FF] p-[6px] rounded-3xl self-center"
+              onClick={() => stop()}
+            >
+              <CiPause1 color="white" size={20} />
             </button>
           ) : (
-            <button onClick={() => play()}>
-              <CiPlay1 color="black" size={20} />
+            <button
+              className="bg-[#00B6FF] p-[6px] rounded-3xl self-center"
+              onClick={() => play()}
+            >
+              <CiPlay1 color="white" size={20} />
             </button>
           )}
         </div>
@@ -150,7 +156,7 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
           <MdOutlineAddTask color="#0C8B2C" size={16} />
         </button>
       </div>
-      <audio ref={audioRef} src={url} />
+      <audio ref={audioRef} color="00B6FF" src={url} />
     </div>
   );
 };
