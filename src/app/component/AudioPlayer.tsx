@@ -93,18 +93,6 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
   return (
     <div className="  flex   rounded-2xl flex-col relative p-[4px] bg-white shadow-custom-inset shadow-custom-lg shadow-custom-subtle">
       <div className="flex flex-row justify-between mt-[10px] px-[5%]">
-        <div className="flex">
-          {isPlaying ? (
-            <button onClick={() => stop()}>
-              <CiPause1 color="black" size={20} />
-            </button>
-          ) : (
-            <button onClick={() => play()}>
-              <CiPlay1 color="black" size={20} />
-            </button>
-          )}
-        </div>
-
         <div className="px-[16px]  flex-col w-[70%] pt-[8px]">
           <input
             type="range"
@@ -136,6 +124,17 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
             </text>
           </div>
         </button>
+        <div className="flex">
+          {isPlaying ? (
+            <button onClick={() => stop()}>
+              <CiPause1 color="black" size={20} />
+            </button>
+          ) : (
+            <button onClick={() => play()}>
+              <CiPlay1 color="black" size={20} />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="mt-[10px] p-[7px] flex justify-between">

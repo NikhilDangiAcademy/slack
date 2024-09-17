@@ -4,6 +4,8 @@ import Switch from "./component/Switch";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AudioPlayer from "./component/AudioPlayer";
+import Link from "next/link";
+
 interface dataInterface {
   name: string;
   category: string;
@@ -11,6 +13,7 @@ interface dataInterface {
   sAmount: string;
   audio: string;
 }
+
 export default function Home() {
   const [expireLeads, setExpireLeads] = useState<boolean>(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -150,7 +153,7 @@ export default function Home() {
           </text>
         </div>
 
-        <div className="flex ">
+        {/* <div className="flex ">
           <text className="text-black font-bold text-[16px] text-center flex flex-col ">
             01<text className="text-[9px] font-bold text-center">Hours</text>
           </text>
@@ -159,33 +162,61 @@ export default function Home() {
             05
             <text className="text-[9px] font-bold text-center">Minutes</text>
           </text>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <Switch isOn={isOn} handleToggle={handleToggle} />
-          <text className="text-[9px] mt-[2px] text-black">
+        </div> */}
+        <div className="flex flex-row items-center border-2 p-[2px] rounded-full">
+          <div className="w-[32px] h-[32px] bg-[#0C8B2C] rounded-2xl  flex justify-center ">
+            <div className="w-[21px] h-[21px] bg-white self-center rounded-xl justify-center flex">
+              <text className="text-[9px] flex self-center text-[#0C8B2C] ">
+                ON
+              </text>
+            </div>
+          </div>
+          <text className="text-[10px]  mt-[2px] text-black  self-center ml-[4px] font-bold">
             Accepting Leads
           </text>
         </div>
       </div>
-      <div className="flex justify-between bg-[#F4F4F4] mt-[5px] mb-[12px] px-[36px] ">
-        <button className=" py-[10px]" onClick={() => setExpireLeads(false)}>
-          <text
-            className={` text-[14px] font-semibold ${
-              expireLeads ? "text-[#667085]" : "text-[#00B6FF]"
-            }`}
-          >
-            Fresh Leads
+      <div className="py-[10px] px-[20px]   bg-[#F8F8F8] ">
+        <div className="flex flex-row justify-between mb-[10px] ">
+          <text className="text-black text-[14px] font-bold">
+            Refreshing Leads In :
           </text>
-        </button>
-        <button className=" py-[10px]" onClick={() => setExpireLeads(true)}>
-          <text
-            className={`text-[#667085] text-[14px] font-semibold ${
-              !expireLeads ? "text-[#667085]" : "text-[#00B6FF]"
+          <div className="bg-black rounded-2xl py-[6px] px-[12px]">
+            <text className="text-white text-[14px] font-bold ">
+              2 : 59 : 59
+            </text>
+          </div>
+        </div>
+        <div className="flex justify-between  ">
+          <button
+            className={`py-[10px] px-[30px] rounded-2xl ${
+              expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
             }`}
+            onClick={() => setExpireLeads(false)}
           >
-            Expired Leads
-          </text>
-        </button>
+            <text
+              className={` text-[14px] font-semibold ${
+                expireLeads ? "text-[#667085]" : "text-[#FFFFFF]"
+              }`}
+            >
+              Fresh Leads
+            </text>
+          </button>
+          <button
+            className={`py-[10px] px-[30px] rounded-2xl ${
+              !expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
+            }`}
+            onClick={() => setExpireLeads(true)}
+          >
+            <text
+              className={`text-[#667085] text-[14px] font-semibold ${
+                !expireLeads ? "text-[#667085]" : "text-[#FFFFFF]"
+              }`}
+            >
+              Expired Leads
+            </text>
+          </button>
+        </div>
       </div>
       {!expireLeads && (
         <div className="px-[16px]  rounded-xl ">
@@ -193,49 +224,53 @@ export default function Home() {
             <AudioPlayer closeAudioPop={closeAudioPop} url={audioUrl} />
           )}
           {dataList.map((val) => (
-            <div
-              key={val.sAmount}
-              style={ColorChoice(val.category)}
-              className=" mt-[13px] rounded-xl overflow-hidden shadow-custom"
-            >
+            <Link key={val.audio} href={{ pathname: "/leadDetails" }}>
               <div
-                className=" flex items-center mr-[10px] w-[7%] justify-center "
-                style={backgroundColor(val.category)}
+                key={val.sAmount}
+                style={ColorChoice(val.category)}
+                className=" mt-[13px] rounded-xl overflow-hidden shadow-custom"
               >
-                <text className="text-black text-[9px]   -rotate-90 ">
-                  {val.category}
-                </text>
-              </div>
-              <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
-                <div className="flex leading-5 justify-between  ">
-                  <text className="text-black text-[14px] font-semibold">
-                    {val.name}
+                <div
+                  className=" flex items-center mr-[10px] w-[7%] justify-center "
+                  style={backgroundColor(val.category)}
+                >
+                  <text className="text-black text-[9px]   -rotate-90 ">
+                    {val.category}
                   </text>
+                </div>
+                <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
+                  <div className="flex leading-5 justify-between  ">
+                    <text className="text-black text-[14px] font-semibold">
+                      {val.name}
+                    </text>
 
-                  <div className="flex flex-row">
-                    <button
-                      onClick={() => {
-                        setAudio(val?.audio);
-                      }}
-                    >
-                      <TfiHeadphoneAlt color="black" size={20} />
-                    </button>
-                    <button style={{ marginLeft: 10 }}>
-                      <BsThreeDotsVertical color="black" size={20} />
-                    </button>
+                    <div className="flex flex-row">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setAudio(val?.audio);
+                        }}
+                      >
+                        <TfiHeadphoneAlt color="black" size={20} />
+                      </button>
+                      <button style={{ marginLeft: 10 }}>
+                        <BsThreeDotsVertical color="black" size={20} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between mt-[5px]">
+                    <text className="text-[#566573] text-[9.5px] font-normal  ">
+                      {val.amount}
+                    </text>
+                    <text className="text-[#566573] text-[9.5px] font-normal  ">
+                      {val.sAmount}
+                    </text>
                   </div>
                 </div>
-
-                <div className="flex justify-between mt-[5px]">
-                  <text className="text-[#566573] text-[9.5px] font-normal  ">
-                    {val.amount}
-                  </text>
-                  <text className="text-[#566573] text-[9.5px] font-normal  ">
-                    {val.sAmount}
-                  </text>
-                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
