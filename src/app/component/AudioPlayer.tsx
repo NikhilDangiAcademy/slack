@@ -6,8 +6,13 @@ import { IoIosClose } from "react-icons/io";
 interface AudioProps {
   url: string;
   closeAudioPop: () => void;
+  handleLeadPopUp: () => void;
 }
-const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
+const AudioPlayer: React.FC<AudioProps> = ({
+  url,
+  closeAudioPop,
+  handleLeadPopUp,
+}) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -151,7 +156,10 @@ const AudioPlayer: React.FC<AudioProps> = ({ url, closeAudioPop }) => {
           <text className="text-[#FF0707] text-[12px] pr-[6px]">Close</text>
           <IoIosClose color="#FF0707" size={16} />
         </button>
-        <button className=" flex items-center bg-[#C7FFD5] py-[8px] px-[20px] rounded-xl">
+        <button
+          onClick={() => handleLeadPopUp()}
+          className=" flex items-center bg-[#C7FFD5] py-[8px] px-[20px] rounded-xl"
+        >
           <text className="text-[#0C8B2C] text-[12px]  pr-[6px]">Add Lead</text>
           <MdOutlineAddTask color="#0C8B2C" size={16} />
         </button>
