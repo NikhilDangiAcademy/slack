@@ -10,8 +10,9 @@ import AudioPlayer from "../component/AudioPlayer";
 import { useMyContext } from "../context/MyContext";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useDispatch, UseDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../store/store";
+import { RootState } from "../store/rootReducer";
 
 const LeadDetails = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -22,6 +23,8 @@ const LeadDetails = () => {
   const { data } = useMyContext();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
+  const leadOff = useSelector((state: RootState) => state.example.leadOff);
+  console.log(leadOff);
 
   const leadData = [
     {
@@ -125,62 +128,85 @@ const LeadDetails = () => {
     }
   };
 
+  const handleLeadOnOff = () => {
+    router.back();
+    dispatch({ type: "leadOff", value: !leadOff });
+  };
+
   return (
-    <div className="bg-white py-[10px] pb-[30px]">
-      <UserHeader />
-      <RefreshLeadComp />
+    <div className={`bg-white  py-[10px] pb-[30px]`}>
+      <div className={`${closeLeadPopUp ? "opacity-5" : "opacity-100"}`}>
+        <UserHeader handleLeadOnOff={handleLeadOnOff} leadStopped={leadOff} />
+        <RefreshLeadComp />
 
-      <div className="flex justify-between pb-[5px]  px-[16px]   bg-[#F8F8F8] ">
-        <button
-          className={`py-[10px] px-[40px]  flex flex-row items-center rounded-2xl border border-[#00B6FF] `}
-          onClick={() => {
-            setAudio(data?.audio);
-          }}
-        >
-          <text
-            className={` text-[16px] font-semibold  pr-[10px]  text-[#667085] `}
+        <div className="flex justify-between pb-[5px]  px-[16px]   bg-[#F8F8F8] ">
+          <button
+            className={`py-[10px] px-[20px]  flex flex-row items-center rounded-2xl border border-[#00B6FF] `}
+            onClick={() => {
+              setAudio(data?.audio);
+            }}
           >
-            Recording
-          </text>
-          <BsHeadphones color="black" />
-        </button>
-        <button
-          className={`py-[10px] px-[40px] flex flex-row items-center rounded-2xl border border-[#00B6FF] `}
-          onClick={() => setAudio(null)}
-        >
-          <text
-            className={`text-[#667085] text-[16px] font-semibold pr-[10px]  text-[#667085] 
+            <text
+              className={` text-[16px] font-semibold  pr-[10px]  text-[#667085] `}
+            >
+              Recording
+            </text>
+            <BsHeadphones color="black" />
+          </button>
+          <button
+            className={`py-[10px] px-[20px] flex flex-row items-center rounded-2xl border border-[#00B6FF] `}
+            onClick={() => setAudio(null)}
+          >
+            <text
+              className={`text-[#667085] text-[16px] font-semibold pr-[10px]  text-[#667085] 
               }`}
-          >
-            Analysis
-          </text>
-          <CgMenuBoxed color="black" />
-        </button>
-      </div>
-      <div className="px-[16px]">
-        {audioUrl && (
-          <AudioPlayer
-            closeAudioPop={closeAudioPop}
-            url={audioUrl}
-            handleLeadPopUp={handleLeadPopUp}
-          />
-        )}
-      </div>
-      <div className="flex flex-wrap   px-[25px] pt-[10px]">
-        {leadData.map((value: { name: string; value: string }) => (
-          <div key={value.name} className="w-1/2 flex flex-col mb-[12px]">
-            <div>
-              <text className="text-black ">{value.name}</text>
+            >
+              Analysis
+            </text>
+            <CgMenuBoxed color="black" />
+          </button>
+        </div>
+        <div className="px-[16px]">
+          {audioUrl && (
+            <AudioPlayer
+              closeAudioPop={closeAudioPop}
+              url={audioUrl}
+              handleLeadPopUp={handleLeadPopUp}
+            />
+          )}
+        </div>
+        <div className="flex flex-wrap   px-[25px] pt-[10px]">
+          {leadData.map((value: { name: string; value: string }) => (
+            <div key={value.name} className="w-1/2 flex flex-col mb-[12px]">
+              <div>
+                <text className="text-black ">{value.name}</text>
+              </div>
+              <div>
+                <text className="text-black font-bold">{value.value}</text>
+              </div>
             </div>
-            <div>
-              <text className="text-black font-bold">{value.value}</text>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
+        <div className="flex justify-between px-[20px]">
+          <button
+            className="bg-[#FFE9E9] rounded-xl py-[11px] items-center px-[30px] flex flex-row"
+            onClick={() => setCloseLeadPopUp(true)}
+          >
+            <text className="text-[#FF0707] mr-[5px]">Close</text>
+            <MdClose color="#FF0707" />
+          </button>
+          <button
+            onClick={() => handleLeadPopUp()}
+            className="bg-[#C7FFD5] rounded-xl py-[11px] px-[30px]  items-center flex flex-row"
+          >
+            <text className="text-[#0C8B2C] mr-[5px]">Add Lead</text>
+            <MdOutlineAddTask color="#0C8B2C" size={16} />
+          </button>
+        </div>
+      </div>
       {closeLeadPopUp && (
-        <div className=" absolute bg-gradient-to-br from-[#CEFCFF] to-[#A8CCFF] shadow-lg top-[50%] w-3/4 left-[10%]   rounded-2xl  px-[21px] py-[15px]">
+        <div className=" absolute bg-gradient-to-br from-[#CEFCFF] to-[#A8CCFF] shadow-lg top-[40%] w-3/4 left-[13%] right-[15%]   rounded-2xl  px-[21px] py-[30px] shadow-custom">
           <text className="text-black">Tell Lead Comment</text>
           <div className="flex flex-row">
             <div className="w-3/4">
@@ -222,23 +248,6 @@ const LeadDetails = () => {
           </div>
         </div>
       )}
-
-      <div className="flex justify-between px-[20px]">
-        <button
-          className="bg-[#FFE9E9] rounded-xl py-[11px] items-center px-[47px] flex flex-row"
-          onClick={() => setCloseLeadPopUp(true)}
-        >
-          <text className="text-[#FF0707] mr-[5px]">Close</text>
-          <MdClose color="#FF0707" />
-        </button>
-        <button
-          onClick={() => handleLeadPopUp()}
-          className="bg-[#C7FFD5] rounded-xl py-[11px] px-[47px]  items-center flex flex-row"
-        >
-          <text className="text-[#0C8B2C] mr-[5px]">Add Lead</text>
-          <MdOutlineAddTask color="#0C8B2C" size={16} />
-        </button>
-      </div>
     </div>
   );
 };

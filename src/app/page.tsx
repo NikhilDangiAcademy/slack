@@ -8,9 +8,10 @@ import RefreshLeadComp from "./component/RefreshLeadComp";
 import { useRouter } from "next/navigation";
 import { useMyContext } from "./context/MyContext";
 import AddLeadPopUp from "./component/AddLeadPopUp";
-import { useDispatch, useSelector, UseSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "./store/store";
-
+import { Button } from "@nextui-org/react";
+import Image from "next/image";
 interface dataInterface {
   name: string;
   category: string;
@@ -24,17 +25,29 @@ export default function Home() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isOn, setIsOn] = useState<boolean>(false);
   const [addLeadPopUp, setAddLeadPopUp] = useState<boolean>(false);
+  const [leadStopped, setLeadStopped] = useState<boolean>(true);
   const router = useRouter();
   const { setData } = useMyContext();
   const leadStatus = useSelector((state: RootState) => state.example.value);
+  const leadOff = useSelector((state: RootState) => state.example.leadOff);
+
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (leadStatus) {
       setAddLeadPopUp(leadStatus);
-      dispatch({ type: "leadPopup", value: false });
+      // dispatch({ type: "leadPopup", value: false });
     }
   }, [leadStatus]);
+
+  useEffect(() => {
+    console.log("hello" + leadOff);
+    setLeadStopped(leadOff);
+  }, [leadOff]);
+
+  useEffect(() => {
+    dispatch({ type: "leadPopup", value: leadStopped });
+  }, [leadStopped]);
 
   useEffect(() => {
     if (addLeadPopUp) {
@@ -173,6 +186,10 @@ export default function Home() {
     router.push("/leadDetails");
   };
 
+  const handleLeadOnOff = () => {
+    setLeadStopped(!leadStopped);
+  };
+
   const handleLeadPopUp = () => {
     setAddLeadPopUp(true);
     if (audioUrl) {
@@ -180,13 +197,16 @@ export default function Home() {
     }
   };
   return (
-    <div className="py-[5px]  bg-white ">
-      <UserHeaderComp />
+    <div className="py-[5px]   bg-white ">
+      <UserHeaderComp
+        handleLeadOnOff={handleLeadOnOff}
+        leadStopped={leadStopped}
+      />
       <div>
         <RefreshLeadComp />
         <div className="flex justify-evenly pb-[5px]  px-[10px]  bg-[#F8F8F8] ">
           <button
-            className={`py-[10px] px-[40px] rounded-2xl border border-[#00B6FF]  ${
+            className={`py-[10px] px-[20px] rounded-2xl border border-[#00B6FF]  ${
               expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
             }`}
             onClick={() => setExpireLeads(false)}
@@ -200,7 +220,7 @@ export default function Home() {
             </text>
           </button>
           <button
-            className={`py-[10px] px-[40px] rounded-2xl border border-[#00B6FF] ${
+            className={`py-[10px] px-[20px] rounded-2xl border border-[#00B6FF] ${
               !expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
             }`}
             onClick={() => setExpireLeads(true)}
@@ -215,12 +235,12 @@ export default function Home() {
           </button>
         </div>
       </div>
-      {addLeadPopUp && (
+      {addLeadPopUp && !leadStopped && (
         <div className="px-[20px]">
           <AddLeadPopUp />
         </div>
       )}
-      {!expireLeads && (
+      {!expireLeads && !leadStopped && (
         <div className="px-[16px]  rounded-xl ">
           {audioUrl && (
             <AudioPlayer
@@ -232,11 +252,81 @@ export default function Home() {
           {dataList.map((val: dataInterface) => (
             <div
               key={val.sAmount}
+              className="flex mt-[13px] scrollbar-hide rounded-xl  overflow-x-auto whitespace-nowrap"
+            >
+              <div
+                onClick={() => {
+                  handleNavigate(val);
+                }}
+                style={ColorChoice(val.category)}
+                className="flex   rounded-xl shadow-custom"
+              >
+                <div
+                  className=" flex items-center mr-[10px] w-[7%] justify-center "
+                  style={backgroundColor(val.category)}
+                >
+                  <text className="text-black font-bold text-[9px]   -rotate-90 ">
+                    {val.category}
+                  </text>
+                </div>
+                <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
+                  <div className="flex leading-5 justify-between  ">
+                    <text className="text-black text-[18px] font-semibold">
+                      {val.name}
+                    </text>
+
+                    <div className="flex flex-row">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setAudio(val?.audio);
+                        }}
+                      >
+                        <TfiHeadphoneAlt color="black" size={20} />
+                      </button>
+                      <button style={{ marginLeft: 10 }}>
+                        <BsThreeDotsVertical color="black" size={20} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between mt-[5px]  ">
+                    <text className="text-[#566573] text-[14px] font-normal pr-[10px]  ">
+                      {val.amount}
+                    </text>
+                    <text className="text-[#566573] text-[14px] font-normal  ">
+                      {val.sAmount}
+                    </text>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row ">
+                <Button className="mx-[10px] px-[16px] my-[10px] bg-[#FF2E00] rounded-2xl">
+                  <text className="text-black text-[18px] font-normal">
+                    Reject
+                  </text>
+                </Button>
+                <Button className="mx-[10px] px-[16px] my-[10px] bg-[#05FF00] rounded-2xl">
+                  <text className="text-black text-[18px] font-normal">
+                    Accept
+                  </text>
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {expireLeads && (
+        <div className="px-[16px]">
+          {dataList.map((val: dataInterface) => (
+            <div
+              key={val.sAmount}
               onClick={() => {
-                handleNavigate(val);
+                // handleNavigate(val);
               }}
               style={ColorChoice(val.category)}
-              className=" mt-[13px] rounded-xl overflow-hidden shadow-custom"
+              className="bg-[#BDBDBD]  mt-[13px]  scrollbar-hide rounded-xl  overflow-x-auto whitespace-nowrap shadow-custom"
             >
               <div
                 className=" flex items-center mr-[10px] w-[7%] justify-center "
@@ -248,31 +338,25 @@ export default function Home() {
               </div>
               <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
                 <div className="flex leading-5 justify-between  ">
-                  <text className="text-black text-[18px] font-semibold">
+                  <text className="text-[#343434] text-[18px] ">
                     {val.name}
                   </text>
 
-                  <div className="flex flex-row">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setAudio(val?.audio);
-                      }}
-                    >
-                      <TfiHeadphoneAlt color="black" size={20} />
-                    </button>
-                    <button style={{ marginLeft: 10 }}>
-                      <BsThreeDotsVertical color="black" size={20} />
-                    </button>
+                  <div className="flex flex-col">
+                    <text className="text-[10px] text-[#343434] font-semibold">
+                      CX Profile Issue
+                    </text>
+                    <text className="text-[9px] text-[#343434] font-semibold leading-[0.2rem]">
+                      14-06-24, 12:06 PM
+                    </text>
                   </div>
                 </div>
 
                 <div className="flex justify-between mt-[5px]">
-                  <text className="text-[#566573] text-[14px] font-normal  ">
+                  <text className="text-[#343434] text-[14px] font-normal  pr-[10px] ">
                     {val.amount}
                   </text>
-                  <text className="text-[#566573] text-[14px] font-normal  ">
+                  <text className="text-[#343434] text-[14px] font-normal  ">
                     {val.sAmount}
                   </text>
                 </div>
@@ -281,9 +365,18 @@ export default function Home() {
           ))}
         </div>
       )}
-      {expireLeads && (
-        <div>
-          <text className="text-black">Expire List </text>
+      {leadStopped && !expireLeads && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 20,
+          }}
+        >
+          <Image
+            src={require("../app/assets/images/leadOff.png")}
+            alt="Lead Off"
+          />
         </div>
       )}
     </div>

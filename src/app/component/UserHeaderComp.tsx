@@ -1,7 +1,14 @@
 "use client";
+import { Button } from "@nextui-org/react";
 import React from "react";
 
-const UserHeader = () => {
+const UserHeader = ({
+  handleLeadOnOff,
+  leadStopped,
+}: {
+  handleLeadOnOff(): void;
+  leadStopped: boolean;
+}) => {
   return (
     <div className="flex justify-between my-[10px] px-[36px]">
       <div className="flex flex-col ">
@@ -11,23 +18,37 @@ const UserHeader = () => {
           Total Leads Quota : 00/02
         </text>
       </div>
-      <div className="flex flex-row items-center border-[#0C8B2C] border p-[2px] rounded-full">
-        <div className="w-[32px] h-[32px] bg-[#0C8B2C] rounded-2xl ml-[2px] flex justify-center ">
+      <Button
+        onClick={() => handleLeadOnOff()}
+        className={`flex flex-row items-center border-[#0C8B2C]  border p-[2px] rounded-full`}
+      >
+        <div
+          style={
+            leadStopped
+              ? { backgroundColor: "#8B0C0C" }
+              : { backgroundColor: "#0C8B2C" }
+          }
+          className="w-[32px] h-[32px] rounded-2xl ml-[2px] flex justify-center "
+        >
           <div className="w-[21px] h-[21px] bg-white self-center rounded-xl justify-center flex">
-            <text className="text-[10px] font-bold flex self-center text-[#0C8B2C] ">
-              ON
+            <text
+              className={`text-[10px] font-bold flex self-center ${
+                leadStopped ? "text-[#8B0C0C]" : "text-[#0C8B2C]"
+              }  `}
+            >
+              {leadStopped ? "OFF" : "ON"}
             </text>
           </div>
         </div>
         <div className="flex flex-col mr-[8px]">
           <text className="text-[10px]  mt-[2px] text-black  self-center ml-[4px] font-bold">
-            Accepting
+            {leadStopped ? "Leads" : "Accepting"}
           </text>
           <text className="text-[10px]   mt-[2px] text-black  self-center ml-[4px] font-bold">
-            Leads
+            {leadStopped ? "Stopped" : "Leads"}
           </text>
         </div>
-      </div>
+      </Button>
     </div>
   );
 };
