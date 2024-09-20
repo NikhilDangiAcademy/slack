@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "./store/store";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
+import useWindowSize from "./hooks/windowSize";
 interface dataInterface {
   name: string;
   category: string;
@@ -32,6 +33,7 @@ export default function Home() {
   const leadStatus = useSelector((state: RootState) => state.example.value);
 
   const dispatch: AppDispatch = useDispatch();
+  const size = useWindowSize();
 
   useEffect(() => {
     if (leadStatus) {
@@ -46,6 +48,7 @@ export default function Home() {
   // }, [leadOff]);
 
   useEffect(() => {
+    console.log(size);
     dispatch({ type: "leadOff", value: leadStopped });
   }, [leadStopped]);
 
@@ -252,24 +255,30 @@ export default function Home() {
           {dataList.map((val: dataInterface) => (
             <div
               key={Math.random()}
-              className="flex mt-[13px] scrollbar-hide rounded-xl  overflow-x-auto whitespace-nowrap"
+              className="flex  mt-[13px] scrollbar-hide rounded-xl  overflow-x-auto whitespace-nowrap"
             >
               <div
                 onClick={() => {
                   handleNavigate(val);
                 }}
                 style={ColorChoice(val.category)}
-                className="flex   rounded-xl shadow-custom"
+                className="flex w-full rounded-xl shadow-custom"
               >
                 <div
-                  className=" flex items-center mr-[10px] w-[7%] justify-center "
+                  className={`flex items-center mr-[10px] justify-center`}
                   style={backgroundColor(val.category)}
                 >
-                  <text className="text-black font-bold text-[9px]   -rotate-90 ">
+                  <text className="text-black font-bold text-[9px] -rotate-90 ">
                     {val.category}
                   </text>
                 </div>
-                <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
+                <div
+                  className="flex flex-col py-[14px] pr-[14px]"
+                  style={{
+                    width:
+                      size.width > 800 ? size.width * 0.7 : size.width * 0.83,
+                  }}
+                >
                   <div className="flex leading-5 justify-between  ">
                     <text className="text-black text-[18px] font-semibold">
                       {val.name}
@@ -301,7 +310,12 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row ">
+              <div
+                className="flex flex-row justify-around  "
+                style={{
+                  width: size.width > 800 ? size.width * 0.5 : size.width * 0.5,
+                }}
+              >
                 <Button className="mx-[10px] px-[16px] my-[10px] bg-[#FF2E00] rounded-2xl">
                   <text className="text-black text-[18px] font-normal">
                     Reject
@@ -377,6 +391,7 @@ export default function Home() {
           }}
         >
           <Image
+            onClick={() => handleLeadOnOff()}
             src={require("../app/assets/images/leadOff.png")}
             alt="Lead Off"
           />
