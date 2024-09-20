@@ -20,13 +20,12 @@ const exampleSlice = (
   state = initialState,
   action: actionInterface
 ): ExampleState => {
-  console.log(action.value);
   switch (action.type) {
     case "leadPopup":
-      return { ...initialState, value: action.value };
+      return { ...state, value: action.value };
 
     case "leadOff":
-      return { ...initialState, leadOff: action.value };
+      return { ...state, leadOff: action.value };
 
     default:
       return state;

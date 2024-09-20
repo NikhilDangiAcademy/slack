@@ -25,28 +25,28 @@ export default function Home() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isOn, setIsOn] = useState<boolean>(false);
   const [addLeadPopUp, setAddLeadPopUp] = useState<boolean>(false);
-  const [leadStopped, setLeadStopped] = useState<boolean>(true);
+  const leadOff = useSelector((state: RootState) => state.example.leadOff);
+  const [leadStopped, setLeadStopped] = useState<boolean>(leadOff);
   const router = useRouter();
   const { setData } = useMyContext();
   const leadStatus = useSelector((state: RootState) => state.example.value);
-  const leadOff = useSelector((state: RootState) => state.example.leadOff);
 
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (leadStatus) {
       setAddLeadPopUp(leadStatus);
-      // dispatch({ type: "leadPopup", value: false });
+      dispatch({ type: "leadPopup", value: false });
     }
   }, [leadStatus]);
 
-  useEffect(() => {
-    console.log("hello" + leadOff);
-    setLeadStopped(leadOff);
-  }, [leadOff]);
+  // useEffect(() => {
+  //   console.log("hello" + leadOff);
+  //   setLeadStopped(leadOff);
+  // }, [leadOff]);
 
   useEffect(() => {
-    dispatch({ type: "leadPopup", value: leadStopped });
+    dispatch({ type: "leadOff", value: leadStopped });
   }, [leadStopped]);
 
   useEffect(() => {
@@ -251,7 +251,7 @@ export default function Home() {
           )}
           {dataList.map((val: dataInterface) => (
             <div
-              key={val.sAmount}
+              key={Math.random()}
               className="flex mt-[13px] scrollbar-hide rounded-xl  overflow-x-auto whitespace-nowrap"
             >
               <div
@@ -307,7 +307,10 @@ export default function Home() {
                     Reject
                   </text>
                 </Button>
-                <Button className="mx-[10px] px-[16px] my-[10px] bg-[#05FF00] rounded-2xl">
+                <Button
+                  onClick={() => handleLeadPopUp()}
+                  className="mx-[10px] px-[16px] my-[10px] bg-[#05FF00] rounded-2xl"
+                >
                   <text className="text-black text-[18px] font-normal">
                     Accept
                   </text>
