@@ -13,6 +13,8 @@ import { RootState, AppDispatch } from "./store/store";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import useWindowSize from "./hooks/windowSize";
+import CloseLeadPopUp from "./component/CloseLeadPopUp";
+
 interface dataInterface {
   name: string;
   category: string;
@@ -31,6 +33,7 @@ export default function Home() {
   const router = useRouter();
   const { setData } = useMyContext();
   const leadStatus = useSelector((state: RootState) => state.example.value);
+  const [closeLeadPopUp, setCloseLeadPopUp] = useState<boolean>(false);
 
   const dispatch: AppDispatch = useDispatch();
   const size = useWindowSize();
@@ -56,12 +59,25 @@ export default function Home() {
     if (addLeadPopUp) {
       setTimeout(() => {
         setAddLeadPopUp(false);
-      }, 5000);
+      }, 3000);
     }
   }, [addLeadPopUp]);
 
   const handleToggle = () => {
     setIsOn((prevState) => !prevState);
+  };
+
+  const handlePostComment = (
+    isSmallTicket: boolean,
+    isLocationIssue: boolean,
+    isWeakCX: boolean
+  ) => {
+    console.log("hello ");
+    if (isSmallTicket || isLocationIssue || isWeakCX) {
+      setCloseLeadPopUp(false);
+    } else {
+      alert("Choice atleast one comment !");
+    }
   };
 
   const dataList: dataInterface[] = [
@@ -206,8 +222,8 @@ export default function Home() {
         leadStopped={leadStopped}
       />
       <div>
-        <RefreshLeadComp />
-        <div className="flex justify-evenly pb-[5px]  px-[10px]  bg-[#F8F8F8] ">
+        {!expireLeads && !leadOff && <RefreshLeadComp />}
+        <div className="flex justify-evenly py-[5px]  px-[10px]  bg-[#F8F8F8] ">
           <button
             className={`py-[10px] px-[20px] rounded-2xl border border-[#00B6FF]  ${
               expireLeads ? "bg-[#EDEDED]" : "bg-[#00B6FF]"
@@ -265,11 +281,14 @@ export default function Home() {
                 className="flex w-full rounded-xl shadow-custom"
               >
                 <div
-                  className={`flex items-center mr-[10px] justify-center`}
+                  className={`flex items-center mr-[10px] w-[35px] justify-center `}
                   style={backgroundColor(val.category)}
                 >
-                  <text className="text-black font-bold text-[9px] -rotate-90 ">
-                    {val.category}
+                  <text
+                    style={{ fontFamily: "aldrich-font" }}
+                    className={`text-black font-bold text-[11px]  -rotate-90 `}
+                  >
+                    {val.category.toUpperCase()}
                   </text>
                 </div>
                 <div
@@ -316,7 +335,10 @@ export default function Home() {
                   width: size.width > 800 ? size.width * 0.5 : size.width * 0.5,
                 }}
               >
-                <Button className="mx-[10px] px-[16px] my-[10px] bg-[#FF2E00] rounded-2xl">
+                <Button
+                  onClick={() => setCloseLeadPopUp(true)}
+                  className="mx-[10px] px-[16px] my-[10px] bg-[#FF2E00] rounded-2xl"
+                >
                   <text className="text-black text-[18px] font-normal">
                     Reject
                   </text>
@@ -387,7 +409,7 @@ export default function Home() {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: 20,
+            margin: 60,
           }}
         >
           <Image
@@ -396,6 +418,9 @@ export default function Home() {
             alt="Lead Off"
           />
         </div>
+      )}
+      {closeLeadPopUp && (
+        <CloseLeadPopUp handlePostComment={handlePostComment} />
       )}
     </div>
   );

@@ -8,17 +8,15 @@ import { MdClose } from "react-icons/md";
 import { MdOutlineAddTask } from "react-icons/md";
 import AudioPlayer from "../component/AudioPlayer";
 import { useMyContext } from "../context/MyContext";
-import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { RootState } from "../store/rootReducer";
+import CloseLeadPopUp from "../component/CloseLeadPopUp";
 
 const LeadDetails = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [isSmallTicket, setIsSmallTicket] = useState<boolean>(false);
-  const [isWeakCX, setIsWeakCX] = useState<boolean>(false);
-  const [isLocationIssue, setIsLocationIssue] = useState<boolean>(false);
+
   const [closeLeadPopUp, setCloseLeadPopUp] = useState<boolean>(false);
   const { data } = useMyContext();
   const router = useRouter();
@@ -103,15 +101,6 @@ const LeadDetails = () => {
   const setAudio = (url: string | null) => {
     setAudioUrl(url);
   };
-  const handleCheckboxTicket = () => {
-    setIsSmallTicket(!isSmallTicket);
-  };
-  const handleCheckboxWeak = () => {
-    setIsWeakCX(!isWeakCX);
-  };
-  const handleCheckboxIssue = () => {
-    setIsLocationIssue(!isLocationIssue);
-  };
 
   const handleLeadPopUp = () => {
     setAudioUrl(null);
@@ -119,7 +108,11 @@ const LeadDetails = () => {
     router.back();
   };
 
-  const handlePostComment = () => {
+  const handlePostComment = (
+    isSmallTicket: boolean,
+    isLocationIssue: boolean,
+    isWeakCX: boolean
+  ) => {
     if (isSmallTicket || isLocationIssue || isWeakCX) {
       setCloseLeadPopUp(false);
       router.back();
@@ -206,47 +199,7 @@ const LeadDetails = () => {
         </div>
       </div>
       {closeLeadPopUp && (
-        <div className=" absolute bg-gradient-to-br from-[#CEFCFF] to-[#A8CCFF] shadow-lg top-[40%] w-3/4 left-[13%] right-[15%]   rounded-2xl  px-[21px] py-[30px] shadow-custom">
-          <text className="text-black">Tell Lead Comment</text>
-          <div className="flex flex-row">
-            <div className="w-3/4">
-              <text className="text-[#5A5A5A] ">Small Ticket Size</text>
-            </div>
-            <input
-              type="checkbox"
-              checked={isSmallTicket}
-              onChange={handleCheckboxTicket}
-            />
-          </div>
-          <div className="flex flex-row">
-            <div className="w-3/4">
-              <text className="text-[#5A5A5A] ">Weak CX Profile</text>
-            </div>
-            <input
-              type="checkbox"
-              checked={isWeakCX}
-              onChange={handleCheckboxWeak}
-            />
-          </div>
-          <div className="flex flex-row">
-            <div className="w-3/4">
-              <text className="text-[#5A5A5A] ">Location Issue</text>
-            </div>
-            <input
-              type="checkbox"
-              checked={isLocationIssue}
-              onChange={handleCheckboxIssue}
-            />
-          </div>
-          <div className="flex justify-center mt-[26px]">
-            <Button
-              onClick={() => handlePostComment()}
-              className="bg-[#00B6FF] rounded-2xl px-[14px] py-[10px]  "
-            >
-              <text className="text-[12px]">Post Comment</text>
-            </Button>
-          </div>
-        </div>
+        <CloseLeadPopUp handlePostComment={handlePostComment} />
       )}
     </div>
   );
