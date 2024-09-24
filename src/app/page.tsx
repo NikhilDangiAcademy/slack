@@ -286,7 +286,7 @@ export default function Home() {
                 >
                   <text
                     style={{ fontFamily: "aldrich-font" }}
-                    className={`text-black font-bold text-[11px]  -rotate-90 `}
+                    className={`text-black font-extrabold text-[11px]  -rotate-90 `}
                   >
                     {val.category.toUpperCase()}
                   </text>
@@ -337,17 +337,17 @@ export default function Home() {
               >
                 <Button
                   onClick={() => setCloseLeadPopUp(true)}
-                  className="mx-[10px] px-[16px] my-[10px] bg-[#FF2E00] rounded-2xl"
+                  className="mx-[10px] px-[16px] my-[10px] bg-[#FFE9E9] rounded-2xl"
                 >
-                  <text className="text-black text-[18px] font-normal">
+                  <text className="text-[#FF0707] text-[18px] font-normal">
                     Reject
                   </text>
                 </Button>
                 <Button
                   onClick={() => handleLeadPopUp()}
-                  className="mx-[10px] px-[16px] my-[10px] bg-[#05FF00] rounded-2xl"
+                  className="mx-[10px] px-[16px] my-[10px]  bg-[#C7FFD5] rounded-2xl"
                 >
-                  <text className="text-black text-[18px] font-normal">
+                  <text className="text-[#0C8B2C] text-[18px]  font-normal">
                     Accept
                   </text>
                 </Button>
