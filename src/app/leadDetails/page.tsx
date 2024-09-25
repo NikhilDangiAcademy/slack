@@ -148,7 +148,7 @@ const LeadDetails = () => {
           </button>
           <button
             className={`py-[10px] px-[20px] flex flex-row items-center rounded-2xl border border-[#00B6FF] `}
-            onClick={() => setAudio(null)}
+            onClick={() => router.push("/analysis")}
           >
             <text
               className={`text-[#667085] text-[16px] font-semibold pr-[10px]  text-[#667085] 
