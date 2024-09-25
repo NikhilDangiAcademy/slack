@@ -26,7 +26,6 @@ interface dataInterface {
 export default function Home() {
   const [expireLeads, setExpireLeads] = useState<boolean>(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [isOn, setIsOn] = useState<boolean>(false);
   const [addLeadPopUp, setAddLeadPopUp] = useState<boolean>(false);
   const leadOff = useSelector((state: RootState) => state.example.leadOff);
   const [leadStopped, setLeadStopped] = useState<boolean>(leadOff);
@@ -43,7 +42,7 @@ export default function Home() {
       setAddLeadPopUp(leadStatus);
       dispatch({ type: "leadPopup", value: false });
     }
-  }, [leadStatus]);
+  }, [dispatch, leadStatus]);
 
   // useEffect(() => {
   //   console.log("hello" + leadOff);
@@ -51,9 +50,8 @@ export default function Home() {
   // }, [leadOff]);
 
   useEffect(() => {
-    console.log(size);
     dispatch({ type: "leadOff", value: leadStopped });
-  }, [leadStopped]);
+  }, [dispatch, leadStopped]);
 
   useEffect(() => {
     if (addLeadPopUp) {
@@ -62,10 +60,6 @@ export default function Home() {
       }, 3000);
     }
   }, [addLeadPopUp]);
-
-  const handleToggle = () => {
-    setIsOn((prevState) => !prevState);
-  };
 
   const handlePostComment = (
     isSmallTicket: boolean,

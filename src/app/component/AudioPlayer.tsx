@@ -48,14 +48,10 @@ const AudioPlayer: React.FC<AudioProps> = ({
     }
   }, []);
 
-  const handleSpeedChange = () => {
+  useEffect(() => {
     if (audioRef.current) {
       audioRef.current.playbackRate = speedTime;
     }
-  };
-
-  useEffect(() => {
-    handleSpeedChange();
   }, [speedTime]);
 
   const play = () => {
