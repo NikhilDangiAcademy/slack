@@ -181,18 +181,18 @@ export default function Home() {
     );
   };
 
-  const backgroundColor = (catName: string): object => {
-    return (
-      (catName === "Gold" && {
-        backgroundColor: "#ECD179",
-      }) ||
-      (catName === "Bronze" && {
-        backgroundColor: "#E4A77C",
-      }) || {
-        backgroundColor: "#D9D9D9",
-      }
-    );
-  };
+  // const backgroundColor = (catName: string): object => {
+  //   return (
+  //     (catName === "Gold" && {
+  //       backgroundColor: "#ECD179",
+  //     }) ||
+  //     (catName === "Bronze" && {
+  //       backgroundColor: "#E4A77C",
+  //     }) || {
+  //       backgroundColor: "#D9D9D9",
+  //     }
+  //   );
+  // };
 
   const handleNavigate = (val: dataInterface) => {
     setData(val);
