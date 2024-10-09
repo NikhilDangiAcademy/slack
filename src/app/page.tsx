@@ -275,7 +275,7 @@ export default function Home() {
                   style={ColorChoice(val.category)}
                   className="flex w-full rounded-xl shadow-custom"
                 >
-                  <div
+                  {/* <div
                     className={`flex items-center mr-[10px] w-[35px] justify-center `}
                     style={backgroundColor(val.category)}
                   >
@@ -285,9 +285,9 @@ export default function Home() {
                     >
                       {val.category.toUpperCase()}
                     </text>
-                  </div>
+                  </div> */}
                   <div
-                    className="flex flex-col py-[14px] pr-[14px]"
+                    className="flex flex-col py-[14px] pr-[14px] mx-[20px]"
                     style={{
                       width:
                         size.width > 800 ? size.width * 0.7 : size.width * 0.83,
