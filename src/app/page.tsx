@@ -363,15 +363,15 @@ export default function Home() {
                 style={ColorChoice(val.category)}
                 className="bg-[#BDBDBD]  mt-[13px]  scrollbar-hide rounded-xl  overflow-x-auto whitespace-nowrap shadow-custom"
               >
-                <div
+                {/* <div
                   className=" flex items-center mr-[10px] w-[7%] justify-center "
                   style={backgroundColor(val.category)}
                 >
                   <text className="text-black font-bold text-[9px]   -rotate-90 ">
                     {val.category}
                   </text>
-                </div>
-                <div className="flex flex-col py-[14px] pr-[14px] w-[93%] ">
+                </div> */}
+                <div className="flex flex-col py-[14px] mx-[20px] pr-[14px] w-[93%] ">
                   <div className="flex leading-5 justify-between  ">
                     <text className="text-[#343434] text-[18px] ">
                       {val.name}
